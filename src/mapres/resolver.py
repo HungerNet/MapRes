@@ -129,9 +129,12 @@ def setGlobalMaps(maps, *, priority=0):
     _DEFAULT_RESOLVER.layers.add_layer(maps, priority=priority)
 
 def res(text: str, **ctx) -> str:
-    '''
-    Simple global resolution.
-    '''
+    '''Simple global resolution'''
     return _DEFAULT_RESOLVER.res(text, **ctx)
 
+def rprint(text: str, sep, end, file, flush, **ctx) -> None:
+    '''Simple global resolution and print'''
+    print(res(text, **ctx), sep=sep, end=end, file=file, flush=flush)
+
 res.setGlobalMaps = setGlobalMaps
+rprint.setGlobalMaps = setGlobalMaps

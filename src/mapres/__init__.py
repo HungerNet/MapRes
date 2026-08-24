@@ -7,10 +7,9 @@ try:
 except PackageNotFoundError:
     __version__ = '0.0.0'
 
-from .resolver import MapResolver, res, setGlobalMaps
+from .resolver import MapResolver, res, rprint, setGlobalMaps
 from .datamap import DataMap, datamap, syntax
 from .layers import Layer, LayerStack
-from .utils import rprint
 
 # maps
 from .maps.color import ColorMap, ascii_colors, mc_colors, strip_colors

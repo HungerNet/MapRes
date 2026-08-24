@@ -1,5 +1,5 @@
 run: true
-version: '3-dev.29'
+version: '3-dev.30'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -66,3 +66,6 @@ description: |
   - Fixed tokenizer to correctly handle nested calls and emit the correct tokens for IDENT, LPAREN, TEXT, and RPAREN
   Dev 29:
   - Attribute bind setGlobalMaps
+  Dev 30:
+  - Updated rprint()
+  - Removed utils.py
