@@ -1,5 +1,5 @@
 run: true
-version: '3-dev.28'
+version: '3-dev.29'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -64,3 +64,5 @@ description: |
   - Removed LPAREN and RPAREN tokens from the tokenizer, fixing a bug in the parser that caused it to fail on nested calls
   Dev 28:
   - Fixed tokenizer to correctly handle nested calls and emit the correct tokens for IDENT, LPAREN, TEXT, and RPAREN
+  Dev 29:
+  - Attribute bind setGlobalMaps

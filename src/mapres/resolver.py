@@ -133,3 +133,5 @@ def res(text: str, **ctx) -> str:
     Simple global resolution.
     '''
     return _DEFAULT_RESOLVER.res(text, **ctx)
+
+res.setGlobalMaps = setGlobalMaps
