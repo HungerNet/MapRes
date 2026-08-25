@@ -18,14 +18,9 @@ keywords = [
     "templating",
     "automation",
     "server-management",
-    "hungerlib",
 ]
 
-dependencies = [
-    "requests",
-    "mcrcon",
-    "PyYaml",
-]
+dependencies = []
 
 classifiers = [
     "Programming Language :: Python :: 3",

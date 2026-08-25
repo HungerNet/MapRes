@@ -1,5 +1,5 @@
 run: true
-version: '3-dev.30'
+version: '3-dev.31'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -69,3 +69,7 @@ description: |
   Dev 30:
   - Updated rprint()
   - Removed utils.py
+  Dev 31:
+  - Updated keywords
+  - Updated dependencies
+  - Updated README (still not great, will work on it later)
