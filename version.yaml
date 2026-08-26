@@ -1,5 +1,5 @@
 run: true
-version: '3-dev.31'
+version: '3-dev.32'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -73,3 +73,5 @@ description: |
   - Updated keywords
   - Updated dependencies
   - Updated README (still not great, will work on it later)
+  Dev 32:
+  - Update github username

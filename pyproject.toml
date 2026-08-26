@@ -36,10 +36,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/iFamishedX/mapres"
-Documentation = "https://github.com/iFamishedX/mapres"
-Source = "https://github.com/iFamishedX/mapres"
-Issues = "https://github.com/iFamishedX/mapres/issues"
+Homepage = "https://github.com/iFamished/mapres"
+Documentation = "https://github.com/iFamished/mapres"
+Source = "https://github.com/iFamished/mapres"
+Issues = "https://github.com/iFamished/mapres/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
