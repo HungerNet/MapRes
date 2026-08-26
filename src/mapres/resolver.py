@@ -116,17 +116,34 @@ class MapResolver:
 
 _DEFAULT_RESOLVER = MapResolver()
 
-def setGlobalMaps(maps, *, priority=0):
-    """
-    Register a global map or datamap instance/class/dict.
-    Lower priority = earlier lookup.
-    """
-    if isinstance(maps, type):
-        try:
-            maps = maps()
-        except TypeError:
-            pass
-    _DEFAULT_RESOLVER.layers.add_layer(maps, priority=priority)
+def setGlobalMaps(*maps, priority=0):
+    '''
+    Register one or more global maps.
+    Supports:
+        - classes
+        - instances
+        - lists/tuples of maps
+    '''
+
+    flat = []
+
+    # flatten lists/tuples
+    for m in maps:
+        if isinstance(m, (list, tuple)):
+            flat.extend(m)
+        else:
+            flat.append(m)
+
+    for m in flat:
+        # instantiate classes
+        if isinstance(m, type):
+            try:
+                m = m()
+            except TypeError:
+                pass
+
+        _DEFAULT_RESOLVER.layers.add_layer(m, priority=priority)
+
 
 def res(text: str, **ctx) -> str:
     '''Simple global resolution'''

@@ -1,5 +1,5 @@
 run: true
-version: '3-dev.32'
+version: '3-alpha.1'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -75,3 +75,6 @@ description: |
   - Updated README (still not great, will work on it later)
   Dev 32:
   - Update github username
+  Alpha 1:
+  - Channel update: Alpha
+  - Fixed setGlobalMaps
