@@ -1,5 +1,5 @@
 run: true
-version: '3-alpha.1'
+version: '3-alpha.2'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -78,3 +78,8 @@ description: |
   Alpha 1:
   - Channel update: Alpha
   - Fixed setGlobalMaps
+  Alpha 2:
+  - Removed MapSyntaxError (unused in v3)
+  - Use single-quotes where possible
+  - Update docstrings and comments
+  - Added mode "raw" to datamap's missing_key paramater

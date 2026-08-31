@@ -35,7 +35,7 @@ class DataMap:
     '''
     __syntax__: str = None
     __mode__: str | None = None  # 'dynamic', 'config', 'callable', or None
-    __missing_key__: str = 'error'  # 'error', 'silent', 'placeholder'
+    __missing_key__: str = 'error'  # 'error', 'silent', 'placeholder', or 'raw'
     __recursive__: bool = False
     __max_depth__: int = 10
 

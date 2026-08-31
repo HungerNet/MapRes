@@ -9,10 +9,20 @@ class EvaluationError(MapResError):
 
 
 class Evaluator:
-    def __init__(self, layerstack, ctx=None):
+    def __init__(self, layerstack, ctx=None, missing_key_mode: str = 'error'):
+        '''
+        layerstack: LayerStack instance
+        ctx:        dict used as highest-priority map
+        missing_key_mode:
+            - 'error'       → raise MissingKeyError
+            - 'silent'      → return raw token unchanged
+            - 'placeholder' → return <missing:key>
+            - 'raw'         → return raw token unchanged (alias of 'silent' at token level)
+        '''
         self.layerstack = layerstack
         self.ctx = ctx or {}
         self._seen = set()  # cycle detection
+        self.missing_key_mode = missing_key_mode
 
     # public api
     def evaluate(self, node):
@@ -33,13 +43,12 @@ class Evaluator:
             return self._eval_call(node)
 
         raise EvaluationError(f'Unknown AST node: {node}')
-    
+
     # re-resolve
     def _re_resolve(self, text: str) -> str:
         tokens = Tokenizer(text).tokenize()
         ast = Parser(tokens).parse()
         return self.evaluate(ast)
-
 
     # template
     def _eval_template(self, node: TemplateNode):
@@ -48,34 +57,26 @@ class Evaluator:
             parts.append(self._eval(child))
         out = ''.join(parts)
 
-        # ---------------------------------------
-        # PER-MAP RECURSION (syntax-scoped)
-        # ---------------------------------------
-        # Find all maps in the layerstack that have recursive=True
+        # per-map recursion (syntax-scoped)
         recursive_maps = [
             m for m in self.layerstack.all_maps()
             if getattr(m, '__recursive__', False) is True
         ]
 
-        # If no maps are recursive, return the first-pass output
         if not recursive_maps:
             return out
 
-        # Determine max recursion depth across all recursive maps
         max_depth = max(getattr(m, '__max_depth__', 10) for m in recursive_maps)
 
         seen = set()
         depth = 0
 
         while depth < max_depth:
-            # Re-tokenize and re-evaluate the ENTIRE output string
             new_out = self._re_resolve(out)
 
-            # If stable, stop recursion
             if new_out == out:
                 break
 
-            # Cycle detection
             if new_out in seen:
                 raise EvaluationError('Cycle detected in recursive map resolution')
 
@@ -91,7 +92,7 @@ class Evaluator:
 
         # cycle detection
         if name in self._seen:
-            raise EvaluationError(f"Cycle detected in identifier '{name}'")
+            raise EvaluationError(f'Cycle detected in identifier \'{name}\'')
         self._seen.add(name)
 
         parts = name.split('.')
@@ -114,14 +115,14 @@ class Evaluator:
                 return str(val)
 
         self._seen.remove(name)
-        raise MissingKeyError(name)
+        return self._handle_missing_ident(node)
 
     # call (nested token)
     def _eval_call(self, node: CallNode):
         outer = node.name
 
         if outer in self._seen:
-            raise EvaluationError(f"Cycle detected in call '{outer}'")
+            raise EvaluationError(f'Cycle detected in call \'{outer}\'')
         self._seen.add(outer)
 
         arg_value = self._eval(node.arg)
@@ -145,7 +146,7 @@ class Evaluator:
                 return str(val)
 
         self._seen.remove(outer)
-        raise MissingKeyError(f'{outer}({arg_value})')
+        return self._handle_missing_call(node, arg_value)
 
     # helpers
     def _map_to_dict(self, m):
@@ -164,3 +165,48 @@ class Evaluator:
                 return None
             cur = cur[p]
         return cur
+
+    # missing-key handling (token-level)
+    def _delims_for_syntax(self, syntax_name: str):
+        table = {
+            'angles': ('<', '>'),
+            'braces': ('{{', '}}'),
+            'dollars': ('${', '}'),
+            'percents': ('%', '%'),
+            'pipes': ('|', '|'),
+            'colons': (':', ':'),
+        }
+        return table.get(syntax_name, ('<', '>'))
+
+    def _handle_missing_ident(self, node: IdentNode):
+        name = node.name
+        open_, close_ = self._delims_for_syntax(node.syntax)
+        raw_token = f'{open_}{name}{close_}'
+
+        mode = self.missing_key_mode or 'error'
+
+        if mode in ('silent', 'raw'):
+            # token-level fallback: leave the unresolved token as-is
+            return raw_token
+
+        if mode == 'placeholder':
+            return f'<missing:{name}>'
+
+        # default: error
+        raise MissingKeyError(name, token=raw_token)
+
+    def _handle_missing_call(self, node: CallNode, arg_value: str):
+        outer = node.name
+        open_, close_ = self._delims_for_syntax(node.syntax)
+        raw_token = f'{open_}{outer}({arg_value}){close_}'
+        key_repr = f'{outer}({arg_value})'
+
+        mode = self.missing_key_mode or 'error'
+
+        if mode in ('silent', 'raw'):
+            return raw_token
+
+        if mode == 'placeholder':
+            return f'<missing:{key_repr}>'
+
+        raise MissingKeyError(key_repr, token=raw_token)
