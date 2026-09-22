@@ -153,9 +153,9 @@ def res(text: str, **ctx) -> str:
     '''Simple global resolution.'''
     return _DEFAULT_RESOLVER.res(text, **ctx)
 
-def rprint(text: str, sep, end, file, flush, **ctx) -> None:
+def rprint(text: str, *args, sep=' ', end='\n', file=None, flush=False, **ctx) -> None:
     '''Simple global resolution and print.'''
-    print(res(text, **ctx), sep=sep, end=end, file=file, flush=flush)
+    print(res(text, **ctx), *args, sep=sep, end=end, file=file, flush=flush)
 
 res.setGlobalMaps = setGlobalMaps
 rprint.setGlobalMaps = setGlobalMaps

@@ -1,5 +1,5 @@
 run: true
-version: '3-alpha.2'
+version: '3-alpha.3'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -83,3 +83,5 @@ description: |
   - Use single-quotes where possible
   - Update docstrings and comments
   - Added mode "raw" to datamap's missing_key paramater
+  Alpha 3:
+  - Fixed rprint() method
