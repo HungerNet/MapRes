@@ -18,6 +18,15 @@ class ColorMap:
     light_purple: str = '\033[95m'
     yellow: str = '\033[93m'
     white: str = '\033[97m'
+    orange: str = '\033[38;5;208m'
+    pink: str = '\033[38;5;213m'
+    light_blue: str = '\033[38;5;117m'
+    light_green: str = '\033[38;5;120m'
+    purple: str = '\033[38;5;129m'
+    brown: str = '\033[38;5;130m'
+    lime: str = '\033[38;5;154m'
+    teal: str = '\033[38;5;37m'
+    violet: str = '\033[38;5;141m'
     reset: str = '\033[0m'
     bold: str = '\033[1m'
     italic: str = '\033[3m'
@@ -41,6 +50,19 @@ mc_colors = ColorMap(
     light_purple='§d',
     yellow='§e',
     white='§f',
+
+    # not supported, fallback to ''
+    orange='',
+    pink='',
+    light_blue='',
+    light_green='',
+    purple='',
+    brown='',
+    lime='',
+    teal='',
+    violet='',
+
+    # these are supported
     reset='§r',
     bold='§l',
     italic='§o'
@@ -63,6 +85,15 @@ strip_colors = ColorMap(
     light_purple='',
     yellow='',
     white='',
+    orange='',
+    pink='',
+    light_blue='',
+    light_green='',
+    purple='',
+    brown='',
+    lime='',
+    teal='',
+    violet='',
     reset='',
     bold='',
     italic=''

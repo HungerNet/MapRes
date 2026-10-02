@@ -1,5 +1,5 @@
 run: true
-version: '3-alpha.3'
+version: '3-alpha.4'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -85,3 +85,5 @@ description: |
   - Added mode "raw" to datamap's missing_key paramater
   Alpha 3:
   - Fixed rprint() method
+  Alpha 4:
+  - Added new colors to `ascii_colors`
