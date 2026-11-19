@@ -1,5 +1,5 @@
 run: true
-version: '3-alpha.4'
+version: '3-alpha.5'
 description: |
   Dev 1:
   - Full engine rewrite:
@@ -87,3 +87,5 @@ description: |
   - Fixed rprint() method
   Alpha 4:
   - Added new colors to `ascii_colors`
+  Alpha 5:
+  - Added configloader

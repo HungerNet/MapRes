@@ -10,6 +10,7 @@ except PackageNotFoundError:
 from .resolver import MapResolver, res, rprint, setGlobalMaps
 from .datamap import DataMap, datamap, syntax
 from .layers import Layer, LayerStack
+from .configloader import loadConfig
 
 # maps
 from .maps.color import ColorMap, ascii_colors, mc_colors, strip_colors
